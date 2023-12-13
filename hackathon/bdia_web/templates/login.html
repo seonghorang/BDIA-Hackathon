@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+        body {
+            font-family: 'Gowun Dodum', sans-serif;
+            word-break: keep-all;
+            width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center; 
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <title>Login</title>
+    
+    <link rel="stylesheet" href="static/css/DoodleCSS-main/doodle.css">
+</head>
+<body class="doodle">
+    <div class="login-wrapper">
+        <h2>Login</h2>
+        <body>
+            <form id="loginForm" action="/member_login" method="post">
+                <label for="userName">이메일:</label>
+                <input type="text" name="userName" id="userName" required>
+                <br>
+                <label for="userPassword">비밀번호:</label>
+                <input type="password" name="userPassword" id="userPassword" required>
+                <br>
+                <button type="button" onclick="attemptLogin()">로그인</button>
+            </form>
+        
+            <script>
+                async function attemptLogin() {
+                    const userName = document.getElementById('userName').value;
+                    const userPassword = document.getElementById('userPassword').value;
+        
+                    // 서버에서 가져온 로그인 정보
+                    const serverLoginInfo = await fetch('/member_login').then(response => response.json());
+        
+                    // 사용자 입력 값과 서버에서 가져온 값 비교
+                    const userExists = serverLoginInfo.some(info => info.mem_email === userName && info.mem_pw === userPassword);
+        
+                    // 결과에 따라 메시지 표시 및 페이지 이동
+                    if (userExists) {
+                        alert('로그인 성공'); // 팝업 알림
+                        window.location.href = '/'; // 메인 페이지로 이동
+                    } else {
+                        alert('아이디,비밀번호 오류 다시 입력해주세요!');
+                    }
+                }
+            </script>
+    </div>
+</body>
+</html>
